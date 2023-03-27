@@ -1,0 +1,16 @@
+nsq:
+  message_queue:
+    addresses: ["127.0.0.1"]
+    port: 4150
+    pub_retry: 3
+  topic_name: "kevinsudut"
+  num_payload_multi_publish: 10
+  num_worker: 5
+
+csv:
+  path: "files"
+  file_name: "data.csv"
+
+log:
+  log_level: "debug"
+  path: "log"
