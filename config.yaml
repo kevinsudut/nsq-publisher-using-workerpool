@@ -3,8 +3,8 @@ nsq:
     addresses: ["127.0.0.1"]
     port: 4150
     pub_retry: 3
-  topic_name: "kevinsudut"
-  num_payload_multi_publish: 10
+  topic_name: "Quest__inject_medali"
+  num_payload_multi_publish: 50
   num_worker: 5
 
 csv:
