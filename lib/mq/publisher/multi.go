@@ -36,7 +36,7 @@ func (mq *MessageQueue) MultiPublishJSON(topic string, data interface{}) error {
 	})
 }
 
-// MultiPublish publishes slice of raw string to the given topic
+// MultiPublishString publishes slice of raw string to the given topic
 func (mq *MessageQueue) MultiPublishString(topic string, data []string) error {
 	btys := [][]byte{}
 

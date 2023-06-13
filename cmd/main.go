@@ -73,6 +73,10 @@ func publishData(cfg config.NSQConfig, rawData []Data) error {
 
 		payload := buildNSQPayload(temp)
 
+		if len(payload) == 0 {
+			continue
+		}
+
 		wp.Submit(func() {
 			err = publisher.MultiPublishJSON(cfg.TopicName, payload)
 			if err != nil {

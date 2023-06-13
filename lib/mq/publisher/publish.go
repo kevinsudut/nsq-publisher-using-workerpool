@@ -21,7 +21,7 @@ func (mq *MessageQueue) PublishJSON(topic string, data interface{}) error {
 	return mq.Publish(topic, byt)
 }
 
-// Publish publishes raw string to the given topic
+// PublishString publishes raw string to the given topic
 func (mq *MessageQueue) PublishString(topic string, data string) error {
 	byt := []byte(data)
 

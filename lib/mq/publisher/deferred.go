@@ -13,7 +13,7 @@ func (mq *MessageQueue) DeferredPublish(topic string, delay time.Duration, body 
 	})
 }
 
-// DeferredPublish marshal the given data to JSON string using fast json encoder and then publish it to the given topic with specific delay time
+// DeferredPublishJSON marshal the given data to JSON string using fast json encoder and then publish it to the given topic with specific delay time
 func (mq *MessageQueue) DeferredPublishJSON(topic string, delay time.Duration, data interface{}) error {
 	byt, err := jsoniter.Marshal(data)
 	if err != nil {
@@ -23,7 +23,7 @@ func (mq *MessageQueue) DeferredPublishJSON(topic string, delay time.Duration, d
 	return mq.Publish(topic, byt)
 }
 
-// DeferredPublish publishes raw string to the given topic with specific delay time
+// DeferredPublishString publishes raw string to the given topic with specific delay time
 func (mq *MessageQueue) DeferredPublishString(topic string, delay time.Duration, data string) error {
 	byt := []byte(data)
 
