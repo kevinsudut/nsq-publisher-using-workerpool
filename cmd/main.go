@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/gammazero/workerpool"
@@ -22,13 +23,14 @@ func errMessage(message string, err error) string {
 }
 
 type Data struct {
-	Index   string `json:"index"`
-	Country string `json:"country"`
+	UserID  string `json:"userid"`
+	ShopID  string `json:"shopid"`
+	QuestID string `json:"questid"`
 }
 
 type NSQPayload struct {
-	Index            string `json:"index"`
-	Country          string `json:"country"`
+	UserID           int64  `json:"user_id"`
+	ShopID           int64  `json:"shop_id"`
 	UniqueIdentifier string `json:"unique_identifier"`
 	Timestamp        int64  `json:"timestamp"`
 }
@@ -93,14 +95,23 @@ func publishData(cfg config.NSQConfig, rawData []Data) error {
 	return err
 }
 
+func Atoi64(str string, defaultValue int64) int64 {
+	i64, err := strconv.ParseInt(str, 10, 64)
+	if err != nil {
+		return defaultValue
+	}
+
+	return i64
+}
+
 func buildNSQPayload(data []Data) []NSQPayload {
 	res := []NSQPayload{}
 
 	for i := 0; i < len(data); i++ {
 		res = append(res, NSQPayload{
-			Index:            data[i].Index,
-			Country:          data[i].Country,
-			UniqueIdentifier: fmt.Sprintf("%s-%s", data[i].Index, data[i].Country),
+			UserID:           Atoi64(data[i].UserID, 0),
+			ShopID:           Atoi64(data[i].ShopID, 0),
+			UniqueIdentifier: fmt.Sprintf("%s:%s", data[i].ShopID, data[i].QuestID),
 			Timestamp:        time.Now().Unix(),
 		})
 	}
