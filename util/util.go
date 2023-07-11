@@ -2,7 +2,6 @@ package util
 
 import (
 	"errors"
-	"math"
 	"reflect"
 
 	jsoniter "github.com/json-iterator/go"
@@ -35,20 +34,18 @@ func ChunkSliceOfInterface(data interface{}, chunkNumber int) ([][]interface{}, 
 		return nil, err
 	}
 
-	sliceSize := len(slice)
-	res := make([][]interface{}, 0, chunkNumber)
-	chunkSize := int(math.Ceil(float64(sliceSize) / float64(chunkNumber)))
+	var res [][]interface{}
 
-	for i := 0; i < chunkNumber-1; i++ {
-		if i+1 > sliceSize {
-			break
+	chunkSize := (len(slice) + chunkNumber - 1) / chunkNumber
+
+	for i := 0; i < len(slice); i += chunkSize {
+		end := i + chunkSize
+
+		if end > len(slice) {
+			end = len(slice)
 		}
 
-		res = append(res, slice[i*chunkSize:(i+1)*chunkSize])
-	}
-
-	if chunkNumber < sliceSize {
-		res = append(res, slice[(chunkNumber-1)*chunkSize:])
+		res = append(res, slice[i:end])
 	}
 
 	return res, nil
